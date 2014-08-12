@@ -22,6 +22,8 @@ def main():
                         help='target fps FPS')
     parser.add_argument('-o', '--output',        default=None,
                         help='output file or folder name')
+    parser.add_argument('-t', '--tmp',           default='/tmp',
+                        help='folder for temporary files')
     tgrp = parser.add_argument_group(title='Track specific options',
                                      description='These options specify what should be done to specific tracks. '
                                                 'Repeat options for multiple tracks. '
@@ -115,9 +117,9 @@ def main():
             raise ValueError
 
     if not args.dry_run:
-        tmpdir = tempfile.mkdtemp()
+        tmpdir = tempfile.mkdtemp(dir=args.tmp)
     else:
-        tmpdir = 'TMP'
+        tmpdir = osp.join(args.tmp, 'tmpXYZ')
     tmpfile = osp.join(tmpdir, '{}-AUDIO.mkv'.format(base))
     tmpfile2 = osp.join(tmpdir, '{}.mkv'.format(base))
 
