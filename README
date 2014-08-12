@@ -1,4 +1,14 @@
 
+Dependencies:
+
+    This program requires very few prerequisites:
+
+    * mediainfo (http://sourceforge.net/projects/mediainfo/)
+    * ffmpeg (http://ffmpeg.org/)
+    * mkvmerge (https://www.bunkus.org/videotools/mkvtoolnix/)
+    * python 2.7
+
+Documentation:
 
 usage: refps [-h] [-n] [-r FPS] [-o OUTPUT] [-t TMP] [-C] [-k TID] [-c TID]
              [-p TID] [-s TID:FPS]
@@ -35,12 +45,12 @@ Track specific options:
                         assume source FPS for track TID
 
 
-
+License:
 
 refps.py by Alexander Blinne
 alexander@blinne.net
 
-mediainfo.py AndreFMi...@gmail.com
+mediainfo.py by AndreFMi...@gmail.com
 https://code.google.com/p/medianav/
 
 Both published under GPL v3, see COPYING
