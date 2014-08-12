@@ -24,6 +24,8 @@ def main():
                         help='output file or folder name')
     parser.add_argument('-t', '--tmp',           default='/tmp',
                         help='folder for temporary files')
+    parser.add_argument('-C', '--copy',          action='store_true',
+                        help='copy source file to temporary directory while processing')
     tgrp = parser.add_argument_group(title='Track specific options',
                                      description='These options specify what should be done to specific tracks. '
                                                 'Repeat options for multiple tracks. '
@@ -121,7 +123,6 @@ def main():
     else:
         tmpdir = osp.join(args.tmp, 'tmpXYZ')
     tmpfile = osp.join(tmpdir, '{}-AUDIO.mkv'.format(base))
-    tmpfile2 = osp.join(tmpdir, '{}.mkv'.format(base))
 
     ffargs.extend([tmpfile])
 
@@ -130,7 +131,10 @@ def main():
 
     if not args.dry_run:
         ffproc = subprocess.Popen(ffargs)
-        shutil.copyfile(args.input, tmpfile2)
+        if args.copy:
+            tmpfile2 = osp.join(tmpdir, '{}.mkv'.format(base))
+            shutil.copyfile(args.input, tmpfile2)
+            args.input = tmpfile2
         ffproc.wait()
 
     mmargs=['mkvmerge',
@@ -138,7 +142,7 @@ def main():
             '--no-audio',
             '--sync', '0:0,{}/{}'.format(ifps, args.fps),
             "--fix-bitstream-timing-information", "0:1",
-            tmpfile2,
+            args.input,
             '--no-video',
             '--no-subtitles',
             '--no-buttons',
@@ -159,10 +163,11 @@ def main():
         except os.error:
             pass
 
-        try:
-            os.remove(tmpfile2)
-        except os.error:
-            pass
+        if args.copy:
+            try:
+                os.remove(tmpfile2)
+            except os.error:
+                pass
 
         try:
             os.rmdir(tmpdir)

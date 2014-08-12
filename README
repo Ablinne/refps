@@ -1,4 +1,42 @@
 
+
+usage: refps [-h] [-n] [-r FPS] [-o OUTPUT] [-t TMP] [-C] [-k TID] [-c TID]
+             [-p TID] [-s TID:FPS]
+             input
+
+Change FPS of a Video and adjust audio.
+
+positional arguments:
+  input                 input filename
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -n, --dry-run         do only a dry run and only print the commands that
+                        would otherwise be executed
+  -r FPS, --fps FPS     target fps FPS
+  -o OUTPUT, --output OUTPUT
+                        output file or folder name
+  -t TMP, --tmp TMP     folder for temporary files
+  -C, --copy            copy source file to temporary directory while
+                        processing
+
+Track specific options:
+  These options specify what should be done to specific tracks. Repeat
+  options for multiple tracks. For each track at most one of -k, -c or -p
+  can be specified. Counting starts at 0.
+
+  -k TID, --keep-pitch TID
+                        change tempo of track TID while keeping the pitch
+  -c TID, --no-keep-pitch TID
+                        change tempo of track TID without keeping the pitch
+  -p TID, --passthrough TID
+                        do not filter track TID
+  -s TID:FPS, --sfps TID:FPS
+                        assume source FPS for track TID
+
+
+
+
 refps.py by Alexander Blinne
 alexander@blinne.net
 
